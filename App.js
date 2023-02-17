@@ -16,7 +16,6 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [user, setUser] = useState(null);
-  console.log("User", user);
   useEffect(() => {
     (async () => {
       try {
@@ -49,7 +48,6 @@ export default function App() {
                     <Button
                       title="Logout"
                       onPress={() => {
-                        console.log("pressed");
                         setUser(null);
                         AsyncStorage.removeItem("user");
                       }}
@@ -63,6 +61,7 @@ export default function App() {
                 options={{
                   title: "Book Parking",
                 }}
+                initialParams={{ user }}
                 component={BookParking}
               />
               <Stack.Screen

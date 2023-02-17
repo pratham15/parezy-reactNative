@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { login } from "../api";
@@ -7,15 +8,21 @@ const LoginScreen = ({ setUser, navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const onPress = () => {
     // dummy on press with 2 sec delay
     setIsLoading(true);
-    setTimeout(async () => {
+    (async () => {
+      try {
+        const data = await login(email, password);
+        setUser(data.data.data.id);
+        AsyncStorage.setItem("user", data.data.data.id.toString());
+      } catch (e) {
+        console.log(e);
+        setIsError(true);
+      }
       setIsLoading(false);
-      // const data = await login("a", "a");
-      // console.log(data.data.data);
-      setUser("asd");
-    }, 2000);
+    })();
   };
   return (
     <View style={styles.container}>
@@ -40,6 +47,11 @@ const LoginScreen = ({ setUser, navigation }) => {
         value={password}
         onChangeText={setPassword}
       />
+      {isError && (
+        <Text style={{ color: "red", marginTop: 10, textAlign: "center" }}>
+          Invalid email or password
+        </Text>
+      )}
       <BookButton onPress={onPress} text="Login" isLoading={isLoading} />
     </View>
   );

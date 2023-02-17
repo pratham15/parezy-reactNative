@@ -1,16 +1,14 @@
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { getParkings } from "../api";
+import { getBookings, getParkings } from "../api";
 const SelectParking = ({ navigation, route }) => {
   const [parkings, setParkings] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        console.log("fetching...");
         const response = await getParkings();
-        console.log(response.data.data);
         if (response.status === 200) setParkings(response.data.data);
       } catch (e) {
         console.log(e);

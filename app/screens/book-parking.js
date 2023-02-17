@@ -1,11 +1,27 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import NewBooking from "../components/new-booking";
+import { useEffect, useState } from "react";
+import { getBookings } from "../api";
+import { useIsFocused } from "@react-navigation/native";
 
 const BookParking = ({ navigation, route }) => {
-  const { name, bookings } = route.params?.parking;
+  const { name } = route.params?.parking;
+  const [bookings, setBookings] = useState([]);
+  const isFocused = useIsFocused();
+  const getBookingsData = async () => {
+    try {
+      console.log("Fetching bookings data");
+      const data = await getBookings(name, false);
+      setBookings(data.data.data === null ? [] : data.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    getBookingsData();
+  }, [name, isFocused]);
 
-  // renders
   return (
     <View style={styles.container}>
       <View style={{ flex: 1, flexDirection: "row", maxHeight: 80 }}>
@@ -18,11 +34,11 @@ const BookParking = ({ navigation, route }) => {
         <TouchableOpacity
           style={{
             flex: 1,
-
             justifyContent: "center",
             backgroundColor: "black",
             borderRadius: 10,
           }}
+          onPress={() => navigation.navigate("ParkingSpots", { name })}
         >
           <Text style={{ color: "white", textAlign: "center" }}>{name}</Text>
           <Text style={{ color: "white", textAlign: "center" }}>Spots</Text>
@@ -48,7 +64,7 @@ const BookParking = ({ navigation, route }) => {
         >
           <Text style={{ fontSize: 12, marginBottom: 5 }}>Status</Text>
           <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-            {bookings}/100
+            {bookings.length}/100
           </Text>
         </View>
         <TouchableOpacity
@@ -62,6 +78,11 @@ const BookParking = ({ navigation, route }) => {
             alignItems: "center",
             justifyContent: "space-between",
           }}
+          onPress={() =>
+            navigation.navigate("ParkingHistory", {
+              name,
+            })
+          }
         >
           <View>
             <Text style={{ fontSize: 12, marginBottom: 5, color: "white" }}>
@@ -78,7 +99,7 @@ const BookParking = ({ navigation, route }) => {
           />
         </TouchableOpacity>
       </View>
-      <NewBooking />
+      <NewBooking name={name} refresh={getBookingsData} />
     </View>
   );
 };
