@@ -1,7 +1,7 @@
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { getBookings, getParkings } from "../api";
+import { getParkings } from "../api";
 const SelectParking = ({ navigation, route }) => {
   const [parkings, setParkings] = useState([]);
 
@@ -30,10 +30,7 @@ const SelectParking = ({ navigation, route }) => {
           <View style={{ flex: 1, flexDirection: "row", alignItems: "center" }}>
             <AntDesign name="car" size={24} color="black" />
             <View style={{ paddingLeft: 15 }}>
-              <Text style={{ paddingBottom: 2 }}>{parking.name}</Text>
-              <Text style={{ fontSize: 10, color: "#565656" }}>
-                200 Metres away
-              </Text>
+              <Text>{parking.name}</Text>
             </View>
           </View>
           <MaterialCommunityIcons

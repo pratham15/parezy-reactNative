@@ -18,16 +18,31 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.expo.parkezy",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBntZ4VFsdZVXjxO3bNGRR-YjgwDjCuvjE"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDP8YrgX4ub6TvunADL-sCQwIAhF6toa5A"
+        }
+      },
+      "package": "com.expo.parkezy"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e054eebf-3d96-48ad-bb68-2610abbba312"
+      }
     }
   }
 }

@@ -11,6 +11,7 @@ import { useAtom } from "jotai";
 import ParkingSpots from "./app/screens/parking-spots";
 import { Button } from "react-native";
 import ParkingHistory from "./app/screens/parking-history";
+import HomeScreen from "./app/screens/home";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,9 +35,14 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           {user === null ? (
-            <Stack.Screen name="Login">
-              {(props) => <LoginScreen {...props} setUser={setUser} />}
-            </Stack.Screen>
+            <>
+              <Stack.Screen name="Home">
+                {(props) => <HomeScreen {...props} />}
+              </Stack.Screen>
+              <Stack.Screen name="Login">
+                {(props) => <LoginScreen {...props} setUser={setUser} />}
+              </Stack.Screen>
+            </>
           ) : (
             <>
               <Stack.Screen
